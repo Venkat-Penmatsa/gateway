@@ -1,0 +1,36 @@
+server:
+  port: 9999
+
+eureka:
+  instance:
+   prefer-ip-address: true
+  client:
+    enabled: true
+    serviceurl:
+     defaultZone: http://127.0.0.1:8761/eureka/ 
+
+spring:
+ application:
+  name: gateway
+ cloud:
+  discovery:
+   enabled: true
+  gateway:
+   routes:
+    - id: customerdetailsservice
+      uri: lb://CUSTOMER-DETAILS-SERVICE
+      predicates: 
+       - Path=/customerDetails/**
+    - id: addressdetailsservice
+      uri: lb://ADDRESS-DETAILS-SERVICE
+      predicates: 
+       - Path=/addressDetails/**
+    - id: accountsdetailsservice
+      uri: lb://ACCOUNTS-DETAILS-SERVICE
+      predicates: 
+       - Path=/accountDetails/**
+    - id: loadbalenderservice
+      uri: lb://LOAD-BALENCING-SERVICE
+      predicates: 
+       - Path=/loadbalencing/**
+
